@@ -1,5 +1,6 @@
 package com.example.noteapp.activities
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.noteapp.R
@@ -13,9 +14,16 @@ class NewNoteActivity : AppCompatActivity() {
         setContentView(R.layout.activity_new_note)
 
         btnInsert.setOnClickListener {
-            val note = Note(etTitle.text.toString(), etDescription.text.toString())
-            NoteSingleton.list.add(note)
-            finish()
+            val sharedPrefs =
+                    getSharedPreferences("Users", Context.MODE_PRIVATE)
+
+            val username = sharedPrefs.getString("username", "")
+
+            username?.let {
+                val note = Note(etTitle.text.toString(), etDescription.text.toString(), it)
+                NoteSingleton.list.add(note)
+                finish()
+            }
         }
     }
 }

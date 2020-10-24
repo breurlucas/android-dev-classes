@@ -37,6 +37,7 @@ class ListNotesActivity : AppCompatActivity() {
 
             card.txtTitle.text = note.title
             card.txtDescription.text = note.description
+            card.txtUser.text = note.user
 
             noteContainer.addView(card)
         }
