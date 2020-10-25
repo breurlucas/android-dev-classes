@@ -40,6 +40,8 @@ class ListNotesActivity : AppCompatActivity() {
 
         // 'Fab' is a placeholder button, it is being triggered by "on resume"
         // Snackbar.make(fab, "Logged in as $username", Snackbar.LENGTH_LONG).show()
+
+        refreshNotes()
     }
 
     fun refreshNotes() {

@@ -11,8 +11,10 @@
         android:theme="@style/Theme.NoteApp">
         <activity
             android:name=".activities.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
-        <activity android:name=".activities.UserActivity" />
+            android:label="Settings"></activity>
+        <activity
+            android:name=".activities.UserActivity"
+            android:label="Log in"/>
         <activity
             android:name=".activities.NewNoteActivity"
             android:label="Create a new note" />
