@@ -2,6 +2,7 @@ package com.example.noteapp.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity
 data class Note (
@@ -10,4 +11,4 @@ data class Note (
     var title: String,
     var description: String,
     var user: String
-)
+) : Serializable

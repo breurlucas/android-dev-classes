@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.preference.PreferenceManager
 import androidx.room.Room
@@ -15,6 +17,7 @@ import com.example.noteapp.models.Note
 import com.example.noteapp.models.NoteSingleton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_list_notes.*
+import kotlinx.android.synthetic.main.note_card.*
 import kotlinx.android.synthetic.main.note_card.view.*
 
 class ListNotesActivity : AppCompatActivity() {
@@ -58,6 +61,24 @@ class ListNotesActivity : AppCompatActivity() {
         }.start()
     }
 
+    fun deleteNote(note: Note) {
+        Thread {
+            val db =
+                    Room.databaseBuilder(this, AppDatabase::class.java, "AppDb").build()
+
+            db.noteDao().delete(note)
+
+            refreshNotes()
+
+        }.start()
+    }
+
+    fun editNote(note: Note) {
+        val intent = Intent(this, EditNoteActivity::class.java)
+        intent.putExtra("note", note)
+        startActivity(intent)
+    }
+
     fun constructNotes(noteList: List<Note>) {
 
         noteContainer.removeAllViews()
@@ -74,6 +95,35 @@ class ListNotesActivity : AppCompatActivity() {
             card.txtDescription.text = note.description
             card.txtUser.text = note.user
             card.setBackgroundColor(color)
+            card.btnCardOpts.setBackgroundColor(color)
+
+            val cardMenu = PopupMenu(this, card.btnCardOpts)
+            cardMenu.menuInflater.inflate(R.menu.menu_card, cardMenu.menu)
+
+            cardMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+                when(item.itemId) {
+
+                    R.id.optEdit -> {
+                        editNote(note)
+                        Toast.makeText(
+                            this,
+                            "Edit card: " + card.txtTitle.text.toString(),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
+                    R.id.optDelete -> {
+                        deleteNote(note)
+                        Toast.makeText(this, "Delete card: " + card.txtTitle.text.toString(), Toast.LENGTH_LONG).show()
+                    }
+                }
+                true
+            })
+
+
+            card.btnCardOpts.setOnClickListener {
+                cardMenu.show()
+            }
 
             noteContainer.addView(card)
         }

@@ -10,11 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NoteApp">
         <activity
+            android:name=".activities.EditNoteActivity"
+            android:label="Edit note"/>
+        <activity
             android:name=".activities.SettingsActivity"
-            android:label="Settings"></activity>
+            android:label="Settings" />
         <activity
             android:name=".activities.UserActivity"
-            android:label="Log in"/>
+            android:label="Log in" />
         <activity
             android:name=".activities.NewNoteActivity"
             android:label="Create a new note" />
