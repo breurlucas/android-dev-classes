@@ -8,7 +8,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.preference.PreferenceManager
+import androidx.room.Room
 import com.example.noteapp.R
+import com.example.noteapp.db.AppDatabase
+import com.example.noteapp.models.Note
 import com.example.noteapp.models.NoteSingleton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_list_notes.*
@@ -37,11 +40,23 @@ class ListNotesActivity : AppCompatActivity() {
 
         // 'Fab' is a placeholder button, it is being triggered by "on resume"
         // Snackbar.make(fab, "Logged in as $username", Snackbar.LENGTH_LONG).show()
-
-        constructNotes()
     }
 
-    fun constructNotes() {
+    fun refreshNotes() {
+        Thread {
+            val db =
+                Room.databaseBuilder(this, AppDatabase::class.java, "AppDb").build()
+
+            val allNotes = db.noteDao().getAll()
+
+            runOnUiThread {
+                constructNotes(allNotes)
+            }
+
+        }.start()
+    }
+
+    fun constructNotes(noteList: List<Note>) {
 
         noteContainer.removeAllViews()
 
@@ -49,7 +64,7 @@ class ListNotesActivity : AppCompatActivity() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val color = prefs.getInt("noteColor", R.color.noteDefaultColor)
 
-        for (note in NoteSingleton.list) {
+        for (note in noteList) {
             val card =
                 layoutInflater.inflate(R.layout.note_card, noteContainer, false)
 
