@@ -2,6 +2,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory app:title="General">
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/font_size_categories"
+            android:entryValues="@array/title_font_size_values"
+            android:key="titleFontSize"
+            android:summary="Current font size: %s"
+            android:title="Title" />
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/font_size_categories"
+            android:entryValues="@array/desc_font_size_values"
+            android:key="descFontSize"
+            android:summary="Current font size: %s"
+            android:title="Description" />
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+            android:defaultValue="@color/noteDefaultColor"
+            android:key="textColor"
+            android:summary="Pick a color"
+            android:title="Text color">
+        </com.jaredrummler.android.colorpicker.ColorPreferenceCompat>
         <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
             android:key="noteColor"
             android:title="Note color"

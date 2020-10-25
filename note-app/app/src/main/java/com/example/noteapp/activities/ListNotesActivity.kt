@@ -86,41 +86,61 @@ class ListNotesActivity : AppCompatActivity() {
         // Get default preferences file for the app
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val color = prefs.getInt("noteColor", R.color.noteDefaultColor)
+        val titleSize = prefs.getString("titleFontSize", "20")?.toFloat()
+        val descSize = prefs.getString("descFontSize", "14")?.toFloat()
+        val textColor = prefs.getInt("textColor", R.color.black)
 
         for (note in noteList) {
             val card =
                 layoutInflater.inflate(R.layout.note_card, noteContainer, false)
 
+            // Configure title
             card.txtTitle.text = note.title
+            card.txtTitle.setTextColor(textColor)
+            titleSize?.let {
+                card.txtTitle.textSize = it
+            }
+
+            // Configure description
             card.txtDescription.text = note.description
+            card.txtDescription.setTextColor(textColor)
+            descSize?.let {
+                card.txtDescription.textSize = it
+            }
+
+            // Configure user signature
             card.txtUser.text = note.user
+            card.txtUser.setTextColor(textColor)
+
+            // Configure card
             card.setBackgroundColor(color)
             card.btnCardOpts.setBackgroundColor(color)
 
+            // Construct popup menu for each card containing the following actions:
+            // 1. Edit card
+            // 2. Delete card
             val cardMenu = PopupMenu(this, card.btnCardOpts)
             cardMenu.menuInflater.inflate(R.menu.menu_card, cardMenu.menu)
 
+            // Set listener up for the options selection inside the menu
             cardMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
                 when(item.itemId) {
-
+                    // On 'Edit' selection call the editNote() function passing the current note
                     R.id.optEdit -> {
                         editNote(note)
-                        Toast.makeText(
-                            this,
-                            "Edit card: " + card.txtTitle.text.toString(),
-                            Toast.LENGTH_LONG
-                        ).show()
+//                        Toast.makeText(this, "Edit card: " + card.txtTitle.text.toString(), Toast.LENGTH_LONG).show()
                     }
 
+                    // On 'Delete' selection call the deleteNote() function passing the current note
                     R.id.optDelete -> {
                         deleteNote(note)
-                        Toast.makeText(this, "Delete card: " + card.txtTitle.text.toString(), Toast.LENGTH_LONG).show()
+//                        Toast.makeText(this, "Delete card: " + card.txtTitle.text.toString(), Toast.LENGTH_LONG).show()
                     }
                 }
                 true
             })
 
-
+            // Set listener up for the menu button. Show popup when clicked on
             card.btnCardOpts.setOnClickListener {
                 cardMenu.show()
             }
