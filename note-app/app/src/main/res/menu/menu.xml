@@ -7,4 +7,9 @@
         android:icon="@drawable/person_black_24dp"
         android:title="Item"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/config"
+        android:icon="@drawable/settings_black_24dp"
+        android:title="Item"
+        app:showAsAction="always" />
 </menu>

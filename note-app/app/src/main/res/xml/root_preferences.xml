@@ -1,0 +1,13 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="General">
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+            android:key="noteColor"
+            android:title="Note color"
+            android:summary="Pick a color"
+            android:defaultValue="@color/noteDefaultColor">
+        </com.jaredrummler.android.colorpicker.ColorPreferenceCompat>
+    </PreferenceCategory>
+
+</PreferenceScreen>
