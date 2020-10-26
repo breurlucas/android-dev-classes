@@ -17,6 +17,7 @@ import com.example.noteapp.R
 import com.example.noteapp.db.AppDatabase
 import com.example.noteapp.models.Note
 import com.example.noteapp.models.NoteSingleton
+import com.example.noteapp.utilities.alert
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_list_notes.*
 import kotlinx.android.synthetic.main.activity_user.*
@@ -65,21 +66,45 @@ class ListNotesActivity : AppCompatActivity() {
     }
 
     fun deleteNote(note: Note) {
-        Thread {
-            val db =
+
+        val sharedPrefs =
+            getSharedPreferences("Users", Context.MODE_PRIVATE)
+
+        val username = sharedPrefs.getString("username", "Guest")
+
+        // Checks if the logged in user is the original writer of the note
+        if (username != note.user && note.user != "Guest") {
+            alert("Warning", "This note can only be edited by " + note.user, this)
+        }
+        else {
+            Thread {
+                val db =
                     Room.databaseBuilder(this, AppDatabase::class.java, "AppDb").build()
 
-            db.noteDao().delete(note)
+                db.noteDao().delete(note)
 
-            refreshNotes()
+                refreshNotes()
 
-        }.start()
+            }.start()
+        }
     }
 
     fun editNote(note: Note) {
-        val intent = Intent(this, EditNoteActivity::class.java)
-        intent.putExtra("note", note)
-        startActivity(intent)
+
+        val sharedPrefs =
+            getSharedPreferences("Users", Context.MODE_PRIVATE)
+
+        val username = sharedPrefs.getString("username", "Guest")
+
+        // Checks if the logged in user is the original writer of the note
+        if (username != note.user && note.user != "Guest") {
+            alert("Warning", "This note can only be edited by " + note.user, this)
+        }
+        else {
+            val intent = Intent(this, EditNoteActivity::class.java)
+            intent.putExtra("note", note)
+            startActivity(intent)
+        }
     }
 
     fun constructNotes(noteList: List<Note>) {
