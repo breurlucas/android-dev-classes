@@ -85,7 +85,7 @@ class ListNotesActivity : AppCompatActivity() {
 
         // Get default preferences file for the app
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val color = prefs.getInt("noteColor", R.color.noteDefaultColor)
+        val color = prefs.getInt("noteColor", R.color.white)
         val titleSize = prefs.getString("titleFontSize", "20")?.toFloat()
         val descSize = prefs.getString("descFontSize", "14")?.toFloat()
         val textColor = prefs.getInt("textColor", R.color.black)
@@ -112,9 +112,11 @@ class ListNotesActivity : AppCompatActivity() {
             card.txtUser.text = note.user
             card.txtUser.setTextColor(textColor)
 
-            // Configure card
-            card.setBackgroundColor(color)
-            card.btnCardOpts.setBackgroundColor(color)
+            // Check if a card background was chosen, if not, fills it with the default color
+            if(note.background == null) {
+                card.setBackgroundColor(color)
+                card.btnCardOpts.setBackgroundColor(color)
+            }
 
             // Construct popup menu for each card containing the following actions:
             // 1. Edit card

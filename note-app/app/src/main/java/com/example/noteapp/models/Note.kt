@@ -10,5 +10,6 @@ data class Note (
     var id: Int? = null, // Optional parameter
     var title: String,
     var description: String,
+    var background: Int? = null,
     var user: String
 ) : Serializable

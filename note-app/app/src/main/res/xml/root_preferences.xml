@@ -17,7 +17,7 @@
             android:summary="Current font size: %s"
             android:title="Description" />
         <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
-            android:defaultValue="@color/noteDefaultColor"
+            android:defaultValue="@color/black"
             android:key="textColor"
             android:summary="Pick a color"
             android:title="Text color">
@@ -26,7 +26,7 @@
             android:key="noteColor"
             android:title="Note color"
             android:summary="Pick a color"
-            android:defaultValue="@color/noteDefaultColor">
+            android:defaultValue="@color/white">
         </com.jaredrummler.android.colorpicker.ColorPreferenceCompat>
     </PreferenceCategory>
 

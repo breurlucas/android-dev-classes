@@ -24,6 +24,8 @@ class UserActivity : AppCompatActivity() {
             editor.putString("username", username)
 
             editor.commit() // Writes on and closes file (Apply keeps the file open)
+
+            finish()
         }
     }
 }
