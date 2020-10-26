@@ -17,6 +17,7 @@ import com.example.noteapp.models.Note
 import com.example.noteapp.models.NoteSingleton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_list_notes.*
+import kotlinx.android.synthetic.main.activity_user.*
 import kotlinx.android.synthetic.main.note_card.*
 import kotlinx.android.synthetic.main.note_card.view.*
 
@@ -37,7 +38,7 @@ class ListNotesActivity : AppCompatActivity() {
         val sharedPrefs =
                 getSharedPreferences("Users", Context.MODE_PRIVATE)
 
-        val username = sharedPrefs.getString("username", "")
+        val username = sharedPrefs.getString("username", "Guest")
 
         Toast.makeText(this, "Logged in as $username", Toast.LENGTH_LONG).show()
 
@@ -116,6 +117,12 @@ class ListNotesActivity : AppCompatActivity() {
             if(note.background == null) {
                 card.setBackgroundColor(color)
                 card.btnCardOpts.setBackgroundColor(color)
+            }
+            else {
+                note.background?.let {
+                    card.setBackgroundColor(it)
+                    card.btnCardOpts.setBackgroundColor(it)
+                }
             }
 
             // Construct popup menu for each card containing the following actions:

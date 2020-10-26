@@ -3,14 +3,14 @@
 
     <PreferenceCategory app:title="General">
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="20"
             android:entries="@array/font_size_categories"
             android:entryValues="@array/title_font_size_values"
             android:key="titleFontSize"
             android:summary="Current font size: %s"
             android:title="Title" />
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="14"
             android:entries="@array/font_size_categories"
             android:entryValues="@array/desc_font_size_values"
             android:key="descFontSize"
