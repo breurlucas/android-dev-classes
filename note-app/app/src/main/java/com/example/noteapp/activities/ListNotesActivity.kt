@@ -2,6 +2,8 @@ package com.example.noteapp.activities
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color.BLACK
+import android.graphics.Color.WHITE
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -86,10 +88,10 @@ class ListNotesActivity : AppCompatActivity() {
 
         // Get default preferences file for the app
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val color = prefs.getInt("noteColor", R.color.white)
+        val noteColor = prefs.getInt("noteColor", WHITE)
         val titleSize = prefs.getString("titleFontSize", "20")?.toFloat()
         val descSize = prefs.getString("descFontSize", "14")?.toFloat()
-        val textColor = prefs.getInt("textColor", R.color.black)
+        val textColor = prefs.getInt("textColor", BLACK)
 
         for (note in noteList) {
             val card =
@@ -115,8 +117,8 @@ class ListNotesActivity : AppCompatActivity() {
 
             // Check if a card background was chosen, if not, fills it with the default color
             if(note.background == null) {
-                card.setBackgroundColor(color)
-                card.btnCardOpts.setBackgroundColor(color)
+                card.setBackgroundColor(noteColor)
+                card.btnCardOpts.setBackgroundColor(noteColor)
             }
             else {
                 note.background?.let {
