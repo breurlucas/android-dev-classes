@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface ProductAPI {
 
-    @GET("/android/rest/product")
+    @GET("/android/rest/produto")
     fun getAll(): Call<List<Product>> // Diamond/Generics (Java)
 }

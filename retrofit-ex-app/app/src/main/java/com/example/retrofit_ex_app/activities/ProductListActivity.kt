@@ -7,14 +7,18 @@ import android.widget.Toast
 import com.example.retrofit_ex_app.R
 import com.example.retrofit_ex_app.apis.ProductAPI
 import com.example.retrofit_ex_app.models.Product
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_product_list.*
+import kotlinx.android.synthetic.main.product_card.*
 import kotlinx.android.synthetic.main.product_card.view.*
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.NumberFormat
+import java.util.concurrent.TimeUnit
 
 /* Ideally we should use a recycle view instead of the dynamically loaded cards as we are
 implementing in this app; the recycle view element provides better performance.
@@ -35,8 +39,15 @@ class ProductListActivity : AppCompatActivity() {
 
     fun getAllProducts() {
 
+        // Custom timeout
+        val httpClient = OkHttpClient.Builder()
+                .readTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .build()
+
         val retrofit = Retrofit.Builder()
                 .baseUrl("https://oficinacordova.azurewebsites.net")
+                .client(httpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
@@ -86,6 +97,12 @@ class ProductListActivity : AppCompatActivity() {
 
                 card.txtName.text = product.nomeProduto
                 card.txtPrice.text = formatter.format(product.precProduto)
+
+                Picasso.get()
+                        .load("https://oficinacordova.azurewebsites.net/android/rest/produto/image/"
+                                + product.idProduto)
+                        .error(R.drawable.no_image)
+                        .into(card.imageView)
 
                 container.addView(card)
             }
