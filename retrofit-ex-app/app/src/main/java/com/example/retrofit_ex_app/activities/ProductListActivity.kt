@@ -3,6 +3,7 @@ package com.example.retrofit_ex_app.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.example.retrofit_ex_app.R
 import com.example.retrofit_ex_app.apis.ProductAPI
@@ -58,6 +59,11 @@ class ProductListActivity : AppCompatActivity() {
         val callback = object: Callback<List<Product>> {
 
             override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
+
+                shimmer.stopShimmer()
+                shimmer.visibility = View.GONE
+                scrollView.visibility = View.VISIBLE
+
                 if(response.isSuccessful) {
                     updateScreen(response.body())
                 }
@@ -72,6 +78,11 @@ class ProductListActivity : AppCompatActivity() {
 
             // Check issue in calling the API/getting a response from it
             override fun onFailure(call: Call<List<Product>>, t: Throwable) {
+
+                shimmer.stopShimmer()
+                shimmer.visibility = View.GONE
+                scrollView.visibility = View.VISIBLE
+
                 Toast.makeText(this@ProductListActivity,
                         "Connection error", Toast.LENGTH_LONG).show()
                 Log.e("ProductListActivity", "getAllProducts", t) // tag (Activity), msg (Method), t
@@ -80,6 +91,10 @@ class ProductListActivity : AppCompatActivity() {
         }
 
         call.enqueue(callback)
+
+        scrollView.visibility = View.GONE
+        shimmer.visibility = View.VISIBLE
+        shimmer.startShimmer()
     }
 
     fun updateScreen(products: List<Product>?) {
