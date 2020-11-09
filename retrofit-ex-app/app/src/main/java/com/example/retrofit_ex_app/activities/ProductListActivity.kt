@@ -8,6 +8,8 @@ import android.widget.Toast
 import com.example.retrofit_ex_app.R
 import com.example.retrofit_ex_app.apis.ProductAPI
 import com.example.retrofit_ex_app.models.Product
+import com.facebook.shimmer.Shimmer
+import com.facebook.shimmer.ShimmerDrawable
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_product_list.*
 import kotlinx.android.synthetic.main.product_card.*
@@ -107,15 +109,28 @@ class ProductListActivity : AppCompatActivity() {
         val formatter = NumberFormat.getCurrencyInstance()
 
         products?.let {
+
             for(product in it) { // For each (Java)
                 val card = layoutInflater.inflate(R.layout.product_card, container, false)
 
                 card.txtName.text = product.nomeProduto
                 card.txtPrice.text = formatter.format(product.precProduto)
 
+                val shimmer = Shimmer.AlphaHighlightBuilder()
+                        .setDuration(800)
+                        .setBaseAlpha(0.9f)
+                        .setHighlightAlpha(0.8f)
+                        .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
+                        .setAutoStart(true)
+                        .build()
+
+                val shimmerDrawable = ShimmerDrawable()
+                shimmerDrawable.setShimmer(shimmer)
+
                 Picasso.get()
                         .load("https://oficinacordova.azurewebsites.net/android/rest/produto/image/"
                                 + product.idProduto)
+                        .placeholder(shimmerDrawable)
                         .error(R.drawable.no_image)
                         .into(card.imageView)
 
